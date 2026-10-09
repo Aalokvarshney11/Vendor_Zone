@@ -1,8 +1,0 @@
-{
-  "/login/page": "app/login/page.js",
-  "/verify/[permitId]/page": "app/verify/[permitId]/page.js",
-  "/officer/page": "app/officer/page.js",
-  "/vendor/page": "app/vendor/page.js",
-  "/officer/reservations/page": "app/officer/reservations/page.js",
-  "/vendor/permits/page": "app/vendor/permits/page.js"
-}
