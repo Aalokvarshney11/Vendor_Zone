@@ -193,7 +193,15 @@ export default function VendorPermitsPage() {
 
                     {/* QR Code Column */}
                     <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                      <QRCodeSVG value={verificationUrl} size={110} level="H" />
+                      <div className="p-2 bg-white rounded-lg border border-slate-200 shadow-xs flex items-center justify-center">
+                        <QRCodeSVG
+                          value={verificationUrl}
+                          size={105}
+                          level="H"
+                          bgColor="#FFFFFF"
+                          fgColor="#000000"
+                        />
+                      </div>
                       <div className="mt-2 text-[9px] font-semibold text-slate-500 uppercase tracking-wider">
                         Scan to verify
                       </div>

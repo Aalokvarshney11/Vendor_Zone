@@ -253,9 +253,12 @@ const getPermit = async (req, res) => {
         const clientBase = process.env.CLIENT_URL || "http://localhost:3000";
         const verificationUrl = `${clientBase}/verify/${reservation.permitId}`;
 
-        const qrCode = await QRCode.toDataURL(
-            verificationUrl
-        );
+        let qrCode = null;
+        try {
+            qrCode = await QRCode.toDataURL(verificationUrl);
+        } catch (qrErr) {
+            console.error("QR Code generation error:", qrErr);
+        }
 
         res.status(200).json({
             message: "Digital permit fetched successfully.",

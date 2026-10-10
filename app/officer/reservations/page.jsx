@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { getOfficerPendingReservations, getAdminReservations, approveReservation, rejectReservation } from "@/lib/api";
 import StatusBadge from "@/components/StatusBadge";
 import Button from "@/components/Button";
@@ -164,7 +165,14 @@ export default function OfficerReservationsPage() {
 
                       <td className="px-6 py-4 font-mono text-[11px] text-slate-600">
                         {r.permitId ? (
-                          <span className="font-bold text-emerald-700">{r.permitId}</span>
+                          <Link
+                            href={`/verify/${r.permitId}`}
+                            target="_blank"
+                            className="font-bold text-emerald-700 hover:text-emerald-800 hover:underline inline-flex items-center gap-1"
+                          >
+                            <span>{r.permitId}</span>
+                            <span className="text-[10px]">↗</span>
+                          </Link>
                         ) : (
                           <span className="text-slate-400">—</span>
                         )}

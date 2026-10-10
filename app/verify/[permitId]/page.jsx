@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { verifyPermit } from "@/lib/api";
 import StatusBadge from "@/components/StatusBadge";
 import Button from "@/components/Button";
+import { QRCodeSVG } from "qrcode.react";
 import { X, RefreshCw, MapPin, ShieldCheck, ArrowRight } from "lucide-react";
 
 export default function PublicVerifyPage() {
@@ -159,7 +160,7 @@ export default function PublicVerifyPage() {
                 </div>
               ) : (
                 <div className="space-y-5 text-xs">
-                  {/* Seal / Reference ID */}
+                  {/* Seal / Reference ID & QR Stamp */}
                   <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                     <div>
                       <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
@@ -169,7 +170,22 @@ export default function PublicVerifyPage() {
                         {permit.permitId || permitId}
                       </div>
                     </div>
-                    <StatusBadge status={permit.status || "approved"} />
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                        <QRCodeSVG
+                          value={
+                            typeof window !== "undefined"
+                              ? `${window.location.origin}/verify/${permit.permitId || permitId}`
+                              : `http://localhost:3000/verify/${permit.permitId || permitId}`
+                          }
+                          size={54}
+                          level="M"
+                          bgColor="#FFFFFF"
+                          fgColor="#000000"
+                        />
+                      </div>
+                      <StatusBadge status={permit.status || "approved"} />
+                    </div>
                   </div>
 
                   {/* Details Grid */}

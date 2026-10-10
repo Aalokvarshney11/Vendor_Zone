@@ -269,23 +269,31 @@ export default function VendorReservationsPage() {
 
                   {/* QR Code */}
                   <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 text-center">
-                    {activePermit.qrCode ? (
-                      <img
-                        src={activePermit.qrCode}
-                        alt="Permit QR Code"
-                        className="w-32 h-32 object-contain"
-                      />
-                    ) : (
-                      <QRCodeSVG
-                        value={
-                          typeof window !== "undefined"
-                            ? `${window.location.origin}/verify/${activePermit.permitId}`
-                            : `http://localhost:3000/verify/${activePermit.permitId}`
-                        }
-                        size={120}
-                        level="H"
-                      />
-                    )}
+                    <div className="p-2.5 bg-white rounded-xl shadow-xs border border-slate-200 flex items-center justify-center">
+                      {activePermit.qrCode ? (
+                        <img
+                          src={activePermit.qrCode}
+                          alt="Permit QR Code"
+                          className="w-32 h-32 object-contain"
+                        />
+                      ) : activePermit.permitId ? (
+                        <QRCodeSVG
+                          value={
+                            typeof window !== "undefined"
+                              ? `${window.location.origin}/verify/${activePermit.permitId}`
+                              : `http://localhost:3000/verify/${activePermit.permitId}`
+                          }
+                          size={120}
+                          level="H"
+                          bgColor="#FFFFFF"
+                          fgColor="#000000"
+                        />
+                      ) : (
+                        <div className="w-32 h-32 flex items-center justify-center text-slate-400 text-xs text-center p-2">
+                          QR Pending Approval
+                        </div>
+                      )}
+                    </div>
                     <span className="mt-2 text-[10px] font-semibold text-slate-500">
                       Scan to verify live on municipal registry
                     </span>

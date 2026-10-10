@@ -3,7 +3,7 @@ const dns = require("dns");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const connectDB = require("./db");
 const User = require("../models/user.model");
 const Vendor = require("../models/vendor.model");
@@ -136,6 +136,30 @@ async function seedData() {
         existingZone.status = z.status;
         await existingZone.save();
         console.log(`Updated zone: ${z.name}`);
+      }
+    }
+
+    // Seed a verified approved reservation with permitId for instant QR badge testing
+    const mandiZone = await Zone.findOne({ name: "Subhash Chowk Fresh Produce Mandi" });
+    if (mandiZone && vendorProfile) {
+      let existingRes = await Reservation.findOne({ vendorId: vendorProfile._id, status: "approved" });
+      if (!existingRes) {
+        const startDate = new Date();
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 30); // Valid for 30 days
+
+        existingRes = await Reservation.create({
+          vendorId: vendorProfile._id,
+          zoneId: mandiZone._id,
+          startDate,
+          endDate,
+          status: "approved",
+          permitId: "VZ-DEL-892147",
+        });
+
+        mandiZone.occupiedSpaces = Math.min(mandiZone.capacity, mandiZone.occupiedSpaces + 1);
+        await mandiZone.save();
+        console.log("Created approved demo reservation with permit ID: VZ-DEL-892147");
       }
     }
 
